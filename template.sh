@@ -12,4 +12,5 @@ touch app.py
 touch requirements.txt
 touch .env
 
+
 echo "Directories and Files Created Successfully!."
