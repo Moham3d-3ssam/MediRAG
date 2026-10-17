@@ -1,6 +1,7 @@
 # Creating Directories
 mkdir -p src
 mkdir -p research
+mkdir -p data
 
 # Creating Files
 touch src/__init__.py
