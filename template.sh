@@ -10,6 +10,7 @@ touch src/prompt.py
 touch research/trials.ipynb
 touch setup.py
 touch app.py
+touch store_index.py
 touch requirements.txt
 touch .env
 
