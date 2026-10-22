@@ -1,121 +1,456 @@
-<link
-  href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-  rel="stylesheet"
-  id="bootstrap-css"
-/>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
 
-<!doctype html>
-<html>
-  <head>
-    <title>Chatbot</title>
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Medical AI Assistant</title>
+
+    <!-- Favicon -->
     <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
+        rel="icon"
+        type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%232563eb'/%3E%3Cpath d='M30 28v25c0 12 9 22 20 22s20-10 20-22V28' fill='none' stroke='white' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M30 28h10M60 28h10' stroke='white' stroke-width='7' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='77' r='5' fill='white'/%3E%3C/svg%3E"
     />
+
+    <!-- Bootstrap -->
     <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-      crossorigin="anonymous"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    >
+
+    <!-- Font Awesome -->
     <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='style.css')}}"
-    />
-  </head>
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    >
 
-  <body>
-    <div class="container-fluid h-100">
-      <div class="row justify-content-center h-100">
-        <div class="col-md-8 col-xl-6 chat">
-          <div class="card">
-            <div class="card-header msg_head">
-              <div class="d-flex bd-highlight">
-                <div class="img_cont">
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/387/387569.png"
-                    class="rounded-circle user_img"
-                  />
-                  <!-- <img src="https://www.prdistribution.com/spirit/uploads/pressreleases/2019/newsreleases/d83341deb75c4c4f6b113f27b1e42cd8-chatbot-florence-already-helps-thousands-of-patients-to-remember-their-medication.png" class="rounded-circle user_img"> -->
-                  <span class="online_icon"></span>
-                </div>
-                <div class="user_info">
-                  <span>Medical Chatbot</span>
-                  <p>Ask me anything!</p>
-                </div>
-              </div>
-            </div>
-            <div id="messageFormeight" class="card-body msg_card_body"></div>
-            <div class="card-footer">
-              <form id="messageArea" class="input-group">
-                <input
-                  type="text"
-                  id="text"
-                  name="msg"
-                  placeholder="Type your message..."
-                  autocomplete="off"
-                  class="form-control type_msg"
-                  required
-                />
-                <div class="input-group-append">
-                  <button
-                    type="submit"
-                    id="send"
-                    class="input-group-text send_btn"
-                  >
-                    <i class="fas fa-location-arrow"></i>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      $(document).ready(function () {
-        $("#messageArea").on("submit", function (event) {
-          const date = new Date();
-          const hour = date.getHours();
-          const minute = date.getMinutes();
-          const str_time = hour + ":" + minute;
-          var rawText = $("#text").val();
-
-          var userHtml =
-            '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' +
-            rawText +
-            '<span class="msg_time_send">' +
-            str_time +
-            '</span></div><div class="img_cont_msg"><img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg"></div></div>';
-
-          $("#text").val("");
-          $("#messageFormeight").append(userHtml);
-
-          $.ajax({
-            data: {
-              msg: rawText,
-            },
-            type: "POST",
-            url: "/get",
-          }).done(function (data) {
-            var botHtml =
-              '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://cdn-icons-png.flaticon.com/512/387/387569.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' +
-              data +
-              '<span class="msg_time">' +
-              str_time +
-              "</span></div></div>";
-            $("#messageFormeight").append($.parseHTML(botHtml));
-          });
-          event.preventDefault();
-        });
-      });
+    <!-- jQuery -->
+    <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
-  </body>
+
+    <!-- Custom CSS -->
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="container-fluid h-100">
+    <div class="row justify-content-center h-100">
+
+        <div class="col-md-8 col-xl-6 chat">
+
+            <div class="card">
+
+                <!-- =========================
+                     HEADER
+                ========================== -->
+                <div class="card-header msg_head">
+
+                    <div class="d-flex align-items-center">
+
+                        <!-- Medical AI Icon -->
+                        <div class="img_cont">
+                            <div class="medical_icon">
+                                <i class="fas fa-stethoscope"></i>
+                            </div>
+
+                            <span class="online_icon"></span>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="user_info">
+
+                            <span>
+                                Medical AI Assistant
+                            </span>
+
+                            <p>
+                                <span class="status-dot"></span>
+                                Online • Ready to help
+                            </p>
+
+                        </div>
+
+                        <!-- Theme Button -->
+                        <button
+                            id="themeToggle"
+                            class="theme_btn"
+                            type="button"
+                            aria-label="Toggle theme"
+                            title="Change theme"
+                        >
+                            <i class="fas fa-moon"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     CHAT MESSAGES
+                ========================== -->
+                <div
+                    id="messageFormeight"
+                    class="card-body msg_card_body"
+                >
+
+                    <!-- Initial Bot Message -->
+                    <div class="d-flex justify-content-start mb-4">
+
+                        <div class="img_cont_msg">
+
+                            <div class="medical_icon_msg">
+                                <i class="fas fa-stethoscope"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="msg_cotainer">
+
+                            Hello! 👋
+                            <br>
+
+                            I'm your Medical AI Assistant.
+                            How can I help you today?
+
+                            <span class="msg_time">
+                                Now
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     FOOTER / INPUT
+                ========================== -->
+                <div class="card-footer">
+
+                    <form
+                        id="messageArea"
+                        class="input-group"
+                    >
+
+                        <input
+                            type="text"
+                            id="text"
+                            name="msg"
+                            placeholder="Ask your medical question..."
+                            autocomplete="off"
+                            class="form-control type_msg"
+                            required
+                        >
+
+                        <div class="input-group-append">
+
+                            <button
+                                type="submit"
+                                id="send"
+                                class="input-group-text send_btn"
+                                aria-label="Send message"
+                                title="Send message"
+                            >
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+
+$(document).ready(function () {
+
+    /* =====================================================
+       THEME
+    ====================================================== */
+
+    const savedTheme = localStorage.getItem("chatbot-theme");
+
+    if (savedTheme === "light") {
+
+        $("body").addClass("light-mode");
+
+        $("#themeToggle i")
+            .removeClass("fa-moon")
+            .addClass("fa-sun");
+
+    }
+
+
+    $("#themeToggle").on("click", function () {
+
+        $("body").toggleClass("light-mode");
+
+        const isLight =
+            $("body").hasClass("light-mode");
+
+        localStorage.setItem(
+            "chatbot-theme",
+            isLight ? "light" : "dark"
+        );
+
+
+        if (isLight) {
+
+            $("#themeToggle i")
+                .removeClass("fa-moon")
+                .addClass("fa-sun");
+
+        } else {
+
+            $("#themeToggle i")
+                .removeClass("fa-sun")
+                .addClass("fa-moon");
+
+        }
+
+    });
+
+
+    /* =====================================================
+       SEND MESSAGE
+    ====================================================== */
+
+    $("#messageArea").on("submit", function (event) {
+
+        event.preventDefault();
+
+
+        const rawText =
+            $("#text").val().trim();
+
+
+        if (!rawText) {
+            return;
+        }
+
+
+        /* Current Time */
+
+        const date = new Date();
+
+        const hour =
+            String(date.getHours()).padStart(2, "0");
+
+        const minute =
+            String(date.getMinutes()).padStart(2, "0");
+
+        const str_time =
+            hour + ":" + minute;
+
+
+        /* =================================================
+           USER MESSAGE
+        ================================================== */
+
+        const userHtml = `
+
+            <div class="d-flex justify-content-end mb-4">
+
+                <div class="msg_cotainer_send">
+
+                    ${escapeHtml(rawText)}
+
+                    <span class="msg_time_send">
+                        ${str_time}
+                    </span>
+
+                </div>
+
+
+                <div class="img_cont_msg user_avatar_wrapper">
+
+                    <img
+                        src="https://i.ibb.co/d5b84Xw/Untitled-design.png"
+                        class="user_img_msg"
+                        alt="User"
+                    >
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        /* Clear Input */
+
+        $("#text").val("");
+
+
+        /* Add User Message */
+
+        $("#messageFormeight")
+            .append(userHtml);
+
+
+        scrollToBottom();
+
+
+        /* =================================================
+           SEND TO FLASK
+        ================================================== */
+
+        $.ajax({
+
+            data: {
+                msg: rawText
+            },
+
+            type: "POST",
+
+            url: "/get"
+
+        })
+
+
+        /* =================================================
+           BOT RESPONSE
+        ================================================== */
+
+        .done(function (data) {
+
+            const botHtml = `
+
+                <div class="d-flex justify-content-start mb-4">
+
+                    <div class="img_cont_msg">
+
+                        <div class="medical_icon_msg">
+
+                            <i class="fas fa-stethoscope"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="msg_cotainer">
+
+                        ${data}
+
+                        <span class="msg_time">
+                            ${str_time}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            $("#messageFormeight")
+                .append(botHtml);
+
+
+            scrollToBottom();
+
+        })
+
+
+        /* =================================================
+           ERROR
+        ================================================== */
+
+        .fail(function () {
+
+            const errorHtml = `
+
+                <div class="d-flex justify-content-start mb-4">
+
+                    <div class="img_cont_msg">
+
+                        <div class="medical_icon_msg error_icon">
+
+                            <i class="fas fa-exclamation"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="msg_cotainer error_message">
+
+                        Sorry, something went wrong.
+                        Please try again.
+
+                        <span class="msg_time">
+                            ${str_time}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            $("#messageFormeight")
+                .append(errorHtml);
+
+
+            scrollToBottom();
+
+        });
+
+    });
+
+
+    /* =====================================================
+       SCROLL TO BOTTOM
+    ====================================================== */
+
+    function scrollToBottom() {
+
+        const messages =
+            $("#messageFormeight");
+
+        messages.scrollTop(
+            messages[0].scrollHeight
+        );
+
+    }
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ====================================================== */
+
+    function escapeHtml(text) {
+
+        return $("<div>")
+            .text(text)
+            .html();
+
+    }
+
+});
+
+</script>
+
+</body>
 </html>
