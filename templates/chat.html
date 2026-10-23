@@ -1,456 +1,463 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Medical AI Assistant</title>
 
-    <!-- Favicon -->
-    <link
-        rel="icon"
-        type="image/svg+xml"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%232563eb'/%3E%3Cpath d='M30 28v25c0 12 9 22 20 22s20-10 20-22V28' fill='none' stroke='white' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M30 28h10M60 28h10' stroke='white' stroke-width='7' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='77' r='5' fill='white'/%3E%3C/svg%3E"
-    />
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
-    <!-- Bootstrap -->
-    <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    >
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 
-    <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-    >
-
-    <!-- jQuery -->
-    <script
-        src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-    </script>
-
-    <!-- Custom CSS -->
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
+<div class="app-shell">
+    <div class="chat-card">
 
-<div class="container-fluid h-100">
-    <div class="row justify-content-center h-100">
+        <header class="chat-header">
+            <div class="header-identity">
+                <div class="header-avatar">
+                    <i class="fas fa-stethoscope"></i>
+                    <span class="online-indicator"></span>
+                </div>
 
-        <div class="col-md-8 col-xl-6 chat">
-
-            <div class="card">
-
-                <!-- =========================
-                     HEADER
-                ========================== -->
-                <div class="card-header msg_head">
-
-                    <div class="d-flex align-items-center">
-
-                        <!-- Medical AI Icon -->
-                        <div class="img_cont">
-                            <div class="medical_icon">
-                                <i class="fas fa-stethoscope"></i>
-                            </div>
-
-                            <span class="online_icon"></span>
-                        </div>
-
-                        <!-- Title -->
-                        <div class="user_info">
-
-                            <span>
-                                Medical AI Assistant
-                            </span>
-
-                            <p>
-                                <span class="status-dot"></span>
-                                Online • Ready to help
-                            </p>
-
-                        </div>
-
-                        <!-- Theme Button -->
-                        <button
-                            id="themeToggle"
-                            class="theme_btn"
-                            type="button"
-                            aria-label="Toggle theme"
-                            title="Change theme"
-                        >
-                            <i class="fas fa-moon"></i>
-                        </button>
-
+                <div class="header-info">
+                    <div class="header-title">Medical AI Assistant</div>
+                    <div class="header-status">
+                        <span class="status-dot"></span>
+                        Online · Ready to help
                     </div>
-
                 </div>
-
-
-                <!-- =========================
-                     CHAT MESSAGES
-                ========================== -->
-                <div
-                    id="messageFormeight"
-                    class="card-body msg_card_body"
-                >
-
-                    <!-- Initial Bot Message -->
-                    <div class="d-flex justify-content-start mb-4">
-
-                        <div class="img_cont_msg">
-
-                            <div class="medical_icon_msg">
-                                <i class="fas fa-stethoscope"></i>
-                            </div>
-
-                        </div>
-
-                        <div class="msg_cotainer">
-
-                            Hello! 👋
-                            <br>
-
-                            I'm your Medical AI Assistant.
-                            How can I help you today?
-
-                            <span class="msg_time">
-                                Now
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =========================
-                     FOOTER / INPUT
-                ========================== -->
-                <div class="card-footer">
-
-                    <form
-                        id="messageArea"
-                        class="input-group"
-                    >
-
-                        <input
-                            type="text"
-                            id="text"
-                            name="msg"
-                            placeholder="Ask your medical question..."
-                            autocomplete="off"
-                            class="form-control type_msg"
-                            required
-                        >
-
-                        <div class="input-group-append">
-
-                            <button
-                                type="submit"
-                                id="send"
-                                class="input-group-text send_btn"
-                                aria-label="Send message"
-                                title="Send message"
-                            >
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
             </div>
 
-        </div>
+            <button id="themeToggle"
+                    class="theme-btn"
+                    type="button"
+                    aria-label="Toggle theme"
+                    title="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+
+        <main id="messageFormeight" class="chat-messages">
+
+            <!-- Permanent welcome message -->
+            <div class="message-row bot-row welcome-row">
+                <div class="avatar-column">
+                    <div class="message-avatar">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                </div>
+
+                <div class="message-bubble bot-bubble">
+                    <div class="message-content">Hello! 👋
+I'm your Medical AI Assistant. How can I help you today?</div>
+                    <div class="message-time">Now</div>
+                </div>
+
+                <div class="copy-slot">
+                    <button class="copy-btn"
+                            type="button"
+                            title="Copy message"
+                            aria-label="Copy welcome message">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="chat-footer">
+            <form id="messageArea" class="message-form">
+                <input
+                    type="text"
+                    id="text"
+                    name="msg"
+                    class="message-input"
+                    placeholder="Ask your medical question..."
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit"
+                        id="send"
+                        class="send-btn"
+                        aria-label="Send message"
+                        title="Send message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </footer>
 
     </div>
 </div>
 
-
 <script>
+(() => {
+    const messages = document.getElementById("messageFormeight");
+    const form = document.getElementById("messageArea");
+    const input = document.getElementById("text");
+    const sendButton = document.getElementById("send");
+    const themeButton = document.getElementById("themeToggle");
 
-$(document).ready(function () {
+    const WORD_DELAY_MS = 45;
 
-    /* =====================================================
-       THEME
-    ====================================================== */
+    // ------------------------------
+    // Theme
+    // ------------------------------
 
-    const savedTheme = localStorage.getItem("chatbot-theme");
+    function updateThemeIcon() {
+        const isLight = document.body.classList.contains("light-mode");
+        const icon = themeButton.querySelector("i");
 
-    if (savedTheme === "light") {
-
-        $("body").addClass("light-mode");
-
-        $("#themeToggle i")
-            .removeClass("fa-moon")
-            .addClass("fa-sun");
-
+        icon.classList.toggle("fa-moon", !isLight);
+        icon.classList.toggle("fa-sun", isLight);
     }
 
+    if (localStorage.getItem("chatbot-theme") === "light") {
+        document.body.classList.add("light-mode");
+    }
 
-    $("#themeToggle").on("click", function () {
+    updateThemeIcon();
 
-        $("body").toggleClass("light-mode");
-
-        const isLight =
-            $("body").hasClass("light-mode");
+    themeButton.addEventListener("click", () => {
+        document.body.classList.toggle("light-mode");
 
         localStorage.setItem(
             "chatbot-theme",
-            isLight ? "light" : "dark"
+            document.body.classList.contains("light-mode")
+                ? "light"
+                : "dark"
         );
 
-
-        if (isLight) {
-
-            $("#themeToggle i")
-                .removeClass("fa-moon")
-                .addClass("fa-sun");
-
-        } else {
-
-            $("#themeToggle i")
-                .removeClass("fa-sun")
-                .addClass("fa-moon");
-
-        }
-
+        updateThemeIcon();
     });
 
+    // ------------------------------
+    // Helpers
+    // ------------------------------
 
-    /* =====================================================
-       SEND MESSAGE
-    ====================================================== */
+    function getTime() {
+        return new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+        });
+    }
 
-    $("#messageArea").on("submit", function (event) {
+    function scrollToBottom() {
+        messages.scrollTop = messages.scrollHeight;
+    }
 
-        event.preventDefault();
+    function createElement(tag, className, text = "") {
+        const element = document.createElement(tag);
+        element.className = className;
+        element.textContent = text;
+        return element;
+    }
 
+    function createCopyButton() {
+        const slot = createElement("div", "copy-slot");
 
-        const rawText =
-            $("#text").val().trim();
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "copy-btn";
+        button.title = "Copy message";
+        button.setAttribute("aria-label", "Copy message");
+        button.innerHTML = '<i class="far fa-copy"></i>';
 
+        slot.appendChild(button);
+        return slot;
+    }
 
-        if (!rawText) {
+    function createAvatar(isUser) {
+        const column = createElement("div", "avatar-column");
+
+        if (isUser) {
+            const image = document.createElement("img");
+            image.className = "user-avatar";
+            image.src = "https://i.ibb.co/d5b84Xw/Untitled-design.png";
+            image.alt = "User";
+            column.appendChild(image);
+        } else {
+            const avatar = createElement("div", "message-avatar");
+            avatar.innerHTML = '<i class="fas fa-stethoscope"></i>';
+            column.appendChild(avatar);
+        }
+
+        return column;
+    }
+
+    function createBubble(isUser, initialText = "") {
+        const bubble = createElement(
+            "div",
+            "message-bubble " + (isUser ? "user-bubble" : "bot-bubble")
+        );
+
+        const content = createElement(
+            "div",
+            "message-content",
+            initialText
+        );
+
+        const time = createElement(
+            "div",
+            "message-time",
+            getTime()
+        );
+
+        bubble.append(content, time);
+
+        return { bubble, content };
+    }
+
+    function createUserRow(question) {
+        const row = createElement("div", "message-row user-row");
+        const { bubble } = createBubble(true, question);
+
+        row.append(
+            createCopyButton(),
+            bubble,
+            createAvatar(true)
+        );
+
+        return row;
+    }
+
+    function createBotRow() {
+        const row = createElement("div", "message-row bot-row");
+        const { bubble, content } = createBubble(false, "Thinking...");
+
+        content.classList.add("thinking-indicator");
+
+        const copySlot = createCopyButton();
+        copySlot.hidden = true;
+
+        row.append(
+            createAvatar(false),
+            bubble,
+            copySlot
+        );
+
+        return { row, content, copySlot };
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // ------------------------------
+    // Copy button
+    // ------------------------------
+
+    document.addEventListener("click", async event => {
+        const button = event.target.closest(".copy-btn");
+        if (!button) return;
+
+        const row = button.closest(".message-row");
+        const content = row?.querySelector(".message-content");
+
+        if (!content) return;
+
+        if (
+            content.classList.contains("thinking-indicator") ||
+            content.classList.contains("typing-indicator")
+        ) {
             return;
         }
 
-
-        /* Current Time */
-
-        const date = new Date();
-
-        const hour =
-            String(date.getHours()).padStart(2, "0");
-
-        const minute =
-            String(date.getMinutes()).padStart(2, "0");
-
-        const str_time =
-            hour + ":" + minute;
-
-
-        /* =================================================
-           USER MESSAGE
-        ================================================== */
-
-        const userHtml = `
-
-            <div class="d-flex justify-content-end mb-4">
-
-                <div class="msg_cotainer_send">
-
-                    ${escapeHtml(rawText)}
-
-                    <span class="msg_time_send">
-                        ${str_time}
-                    </span>
-
-                </div>
-
-
-                <div class="img_cont_msg user_avatar_wrapper">
-
-                    <img
-                        src="https://i.ibb.co/d5b84Xw/Untitled-design.png"
-                        class="user_img_msg"
-                        alt="User"
-                    >
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        /* Clear Input */
-
-        $("#text").val("");
-
-
-        /* Add User Message */
-
-        $("#messageFormeight")
-            .append(userHtml);
-
-
-        scrollToBottom();
-
-
-        /* =================================================
-           SEND TO FLASK
-        ================================================== */
-
-        $.ajax({
-
-            data: {
-                msg: rawText
-            },
-
-            type: "POST",
-
-            url: "/get"
-
-        })
-
-
-        /* =================================================
-           BOT RESPONSE
-        ================================================== */
-
-        .done(function (data) {
-
-            const botHtml = `
-
-                <div class="d-flex justify-content-start mb-4">
-
-                    <div class="img_cont_msg">
-
-                        <div class="medical_icon_msg">
-
-                            <i class="fas fa-stethoscope"></i>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="msg_cotainer">
-
-                        ${data}
-
-                        <span class="msg_time">
-                            ${str_time}
-                        </span>
-
-                    </div>
-
-                </div>
-
-            `;
-
-
-            $("#messageFormeight")
-                .append(botHtml);
-
-
-            scrollToBottom();
-
-        })
-
-
-        /* =================================================
-           ERROR
-        ================================================== */
-
-        .fail(function () {
-
-            const errorHtml = `
-
-                <div class="d-flex justify-content-start mb-4">
-
-                    <div class="img_cont_msg">
-
-                        <div class="medical_icon_msg error_icon">
-
-                            <i class="fas fa-exclamation"></i>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="msg_cotainer error_message">
-
-                        Sorry, something went wrong.
-                        Please try again.
-
-                        <span class="msg_time">
-                            ${str_time}
-                        </span>
-
-                    </div>
-
-                </div>
-
-            `;
-
-
-            $("#messageFormeight")
-                .append(errorHtml);
-
-
-            scrollToBottom();
-
-        });
-
+        const text = content.textContent.trim();
+        if (!text) return;
+
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                const textarea = document.createElement("textarea");
+                textarea.value = text;
+                textarea.style.position = "fixed";
+                textarea.style.opacity = "0";
+
+                document.body.appendChild(textarea);
+                textarea.select();
+
+                const copied = document.execCommand("copy");
+                textarea.remove();
+
+                if (!copied) throw new Error("Copy failed");
+            }
+
+            const previous = button.innerHTML;
+
+            button.innerHTML = '<i class="fas fa-check"></i>';
+            button.title = "Copied!";
+
+            setTimeout(() => {
+                button.innerHTML = previous;
+                button.title = "Copy message";
+            }, 1000);
+
+        } catch (error) {
+            console.error("Unable to copy:", error);
+            button.title = "Unable to copy";
+        }
     });
 
+    // ------------------------------
+    // Stream and animate the answer
+    // ------------------------------
 
-    /* =====================================================
-       SCROLL TO BOTTOM
-    ====================================================== */
+    async function readAnswer(response, content, copySlot) {
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || `HTTP ${response.status}`);
+        }
 
-    function scrollToBottom() {
+        if (!response.body) {
+            throw new Error("Streaming is unavailable in this browser.");
+        }
 
-        const messages =
-            $("#messageFormeight");
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
 
-        messages.scrollTop(
-            messages[0].scrollHeight
+        let pending = "";
+        let fullAnswer = "";
+        let hasStarted = false;
+
+        async function displayText(text, flush = false) {
+            pending += text.replace(/\*\*/g, "");
+
+            // Preserve incomplete words between incoming chunks.
+            const lastWhitespace = Math.max(
+                pending.lastIndexOf(" "),
+                pending.lastIndexOf("\n"),
+                pending.lastIndexOf("\t"),
+                pending.lastIndexOf("\r")
+            );
+
+            let ready;
+            if (flush) {
+                ready = pending;
+                pending = "";
+            } else if (lastWhitespace >= 0) {
+                ready = pending.slice(0, lastWhitespace + 1);
+                pending = pending.slice(lastWhitespace + 1);
+            } else {
+                return;
+            }
+
+            if (!ready) return;
+
+            if (!hasStarted && ready.trim()) {
+                hasStarted = true;
+                content.textContent = "";
+                content.classList.remove("thinking-indicator");
+                content.classList.add("typing-indicator");
+            }
+
+            if (!hasStarted) return;
+
+            const tokens = ready.match(/\S+\s*|\s+/g) || [];
+
+            for (const token of tokens) {
+                content.appendChild(document.createTextNode(token));
+                fullAnswer += token;
+                scrollToBottom();
+
+                if (token.trim()) {
+                    await sleep(WORD_DELAY_MS);
+                }
+            }
+        }
+
+        while (true) {
+            const result = await reader.read();
+
+            if (result.done) break;
+
+            await displayText(
+                decoder.decode(result.value, { stream: true })
+            );
+        }
+
+        await displayText(decoder.decode(), true);
+        await displayText("", true);
+
+        content.classList.remove(
+            "thinking-indicator",
+            "typing-indicator"
         );
 
+        if (!fullAnswer.trim()) {
+            throw new Error("The assistant returned an empty response.");
+        }
+
+        content.textContent = fullAnswer.trim();
+
+        // Copy becomes visible only when the answer has finished.
+        copySlot.hidden = false;
+
+        scrollToBottom();
     }
 
+    // ------------------------------
+    // Submit a question
+    // ------------------------------
 
-    /* =====================================================
-       ESCAPE HTML
-    ====================================================== */
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
 
-    function escapeHtml(text) {
+        const question = input.value.trim();
+        if (!question || sendButton.disabled) return;
 
-        return $("<div>")
-            .text(text)
-            .html();
+        input.value = "";
+        sendButton.disabled = true;
+        input.focus();
 
-    }
+        const userRow = createUserRow(question);
+        const bot = createBotRow();
 
-});
+        messages.append(userRow, bot.row);
+        scrollToBottom();
 
+        try {
+            const response = await fetch("/get", {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                        "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+                body: new URLSearchParams({ msg: question })
+            });
+
+            await readAnswer(response, bot.content, bot.copySlot);
+
+        } catch (error) {
+            console.error("Assistant request failed:", error);
+
+            bot.content.classList.remove(
+                "thinking-indicator",
+                "typing-indicator"
+            );
+
+            bot.content.textContent =
+                "Sorry, something went wrong. Please try again.";
+
+            bot.copySlot.hidden = false;
+
+        } finally {
+            sendButton.disabled = false;
+            input.focus();
+            scrollToBottom();
+        }
+    });
+})();
 </script>
-
 </body>
 </html>
