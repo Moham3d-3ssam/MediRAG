@@ -16,6 +16,7 @@ touch store_index.py
 touch templates/chat.html
 touch static/style.css
 touch requirements.txt
+touch Dockerfile
 touch .env
 
 
